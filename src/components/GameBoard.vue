@@ -81,18 +81,12 @@ export default {
     },
 
     setType(num) {
-      if (this.printSnake(num)) {
-        if (this.belly.includes(num)) return ['snake', 'belly']
-        return [this.printSnake(num)]
+      return {
+        snake: this.setSnakeClass(num),
+        wall: this.setWallClass(num),
+        apple: this.setAppleClass(num),
+        belly: this.setBellyClass(num)
       }
-      if (this.SetFrameBorder(num)) {
-        return [this.SetFrameBorder(num)]
-      }
-      if (!this.apple) {
-        this.setApple()
-      }
-      if (num === this.apple) return ['apple']
-      if (this.belly.includes(num)) return ['belly']
     },
 
     moveSnake() {
@@ -126,22 +120,30 @@ export default {
       }
     },
 
-    printSnake(num) {
-      if (this.snake.includes(num)) {
-        return 'snake'
+    setSnakeClass(num) {
+      return this.snake.includes(num)
+    },
+
+    setWallClass(num) {
+      if (num <= this.boardLength) {
+        return true
+      } else if (num % this.boardLength === 0) {
+        return true
+      } else if (num % this.boardLength === 1) {
+        return true
+      } else if (num >= this.numberOfCells - this.boardLength) {
+        return true
+      } else {
+        return false
       }
     },
 
-    SetFrameBorder(num) {
-      if (num <= this.boardLength) {
-        return 'wall'
-      } else if (num % this.boardLength === 0) {
-        return 'wall'
-      } else if (num % this.boardLength === 1) {
-        return 'wall'
-      } else if (num >= this.numberOfCells - this.boardLength) {
-        return 'wall'
-      }
+    setAppleClass(num) {
+      return num === this.apple
+    },
+
+    setBellyClass(num) {
+      return this.belly.includes(num)
     },
 
     handleKeyDown(event) {
@@ -156,6 +158,12 @@ export default {
         d: 'right'
       }
       this.move(keyMapper[event.key])
+    }
+  },
+
+  created() {
+    if (!this.apple) {
+      this.setApple()
     }
   },
 
