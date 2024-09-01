@@ -30,20 +30,21 @@ export default {
       apple: ''
     }
   },
-  methods: {
-    setApple() {
+  computed: {
+    freeCells() {
       const max = this.numberOfCells - (this.boardLength + 1)
       const min = this.boardLength + 1
-      let randomApple = Math.floor(Math.random() * (max - min + 1)) + min
-      if ((randomApple % this.boardLength === 0) | (randomApple % this.boardLength === 1)) {
-        randomApple = randomApple - 2
-      }
-      //trzeba wykluczyc miejsca gdzie juz znajduje się wąż
-      if (this.snake.includes(randomApple) | this.belly.includes(randomApple)) {
-        randomApple = this.setApple()
-      }
+      const range = (start, stop) => Array.from({ length: stop - start }, (_, i) => start + i)
+      const freeC = [...range(min, max)].filter(
+        (x) => !((x % this.boardLength === 0) | (x % this.boardLength === 1))
+      )
+      return freeC.filter((x) => !this.snake.includes(x))
+    }
+  },
 
-      this.apple = randomApple
+  methods: {
+    setApple() {
+      this.apple = this.freeCells[Math.floor(Math.random() * this.freeCells.length)]
     },
 
     getStartingPosition() {
