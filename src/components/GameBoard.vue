@@ -99,16 +99,16 @@ export default {
       this.moveBuffer.unshift(this.movingDirection)
       this.moveBuffer.pop()
 
-      const getter = this.moveInDirection
-      // utwórz tymczasowy kontener
+      const moveInDirectionGetter = this.moveInDirection
       const tempBuffer = this.moveBuffer.slice()
-      // weź kierunek z move buffer i zaplikuj do
-      function wezIAplikuj(x) {
-        const func = getter(tempBuffer.shift())
+      function applyBuffer(x) {
+        const func = moveInDirectionGetter(tempBuffer.shift())
         return func(x)
       }
-      this.snake = this.snake.map(wezIAplikuj)
-      // szkoda ze ta jedyna czesc sprawdzania wyniku nie jest w componencie cell
+      this.snake = this.snake.map(applyBuffer)
+    },
+
+    checkSelfBiting() {
       if (new Set(this.snake).size !== this.snake.length) {
         this.gameOver()
       }
@@ -161,7 +161,10 @@ export default {
 
   mounted() {
     window.addEventListener('keydown', this.handleKeyDown)
-    setInterval(() => this.moveSnake(), 200)
+    setInterval(() => {
+      this.moveSnake()
+      this.checkSelfBiting()
+    }, 200)
   }
 }
 </script>
