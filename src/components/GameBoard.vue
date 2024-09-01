@@ -69,6 +69,7 @@ export default {
       this.snake = [this.getStartingPosition()]
       this.moveBuffer = ['left']
       this.belly = []
+      this.setApple()
     },
 
     setType(num) {
