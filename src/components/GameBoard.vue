@@ -165,7 +165,7 @@ export default {
 }
 
 #board {
-  margin: 11.8rem auto auto auto;
+  margin: 11.1rem auto auto auto;
   display: grid;
   gap: 2.5px;
   width: 14.5rem;
@@ -190,24 +190,32 @@ button {
   height: 2.5rem;
   width: 3.5rem;
   background-color: rgb(194, 237, 187);
+  color: black;
+  font-weight: bold;
+}
+
+button:active,
+button:focus {
+  box-shadow: 1px 1px 1px black inset;
 }
 
 #buttonUp {
   position: absolute;
-  top: -2.55rem;
+  top: -2.58rem;
   left: 4.7rem;
 }
 
 #buttonDown {
   position: absolute;
   top: 4.2rem;
-  left: 4.7rem;
+  left: 4.8rem;
 }
 
 #buttonLeft {
   position: absolute;
+  top: -0.1rem;
   left: -1rem;
-  transform: rotateZ(15deg);
+  transform: rotateZ(16deg);
 }
 
 #buttonRight {
