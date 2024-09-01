@@ -27,7 +27,13 @@ export default {
       boardLength: 16,
       numberOfCells: 208,
       belly: [],
-      apple: ''
+      apple: '',
+      oppositeDirections: {
+        up: 'down',
+        down: 'up',
+        left: 'right',
+        right: 'left'
+      }
     }
   },
   computed: {
@@ -52,7 +58,9 @@ export default {
     },
 
     move(direction) {
-      this.movingDirection = direction
+      if (this.oppositeDirections[this.movingDirection] !== direction) {
+        this.movingDirection = direction
+      }
     },
 
     enlargeSnake(ref) {
