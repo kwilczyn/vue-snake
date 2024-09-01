@@ -10,14 +10,6 @@ export default {
       default: ''
     }
   },
-  watch: {
-    cellType(newValue, oldValue) {
-      if (newValue === 'snake' && oldValue === 'snake') {
-        console.log('zjadłem ogon!')
-        this.$emit('collision-event')
-      }
-    }
-  },
   emits: ['collision-event', 'apple-event', 'belly-empty'],
   data() {
     return {}
