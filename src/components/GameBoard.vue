@@ -132,23 +132,17 @@ export default {
     },
 
     handleKeyDown(event) {
-      if (Array('ArrowUp', 'w').includes(event.key)) {
-        if (this.movingDirection !== 'down') {
-          this.move('up')
-        }
-      } else if (Array('ArrowDown', 's').includes(event.key)) {
-        if (this.movingDirection !== 'up') {
-          this.move('down')
-        }
-      } else if (Array('ArrowLeft', 'a').includes(event.key)) {
-        if (this.movingDirection !== 'right') {
-          this.move('left')
-        }
-      } else if (Array('ArrowRight', 'd').includes(event.key)) {
-        if (this.movingDirection !== 'left') {
-          this.move('right')
-        }
+      const keyMapper = {
+        ArrowUp: 'up',
+        w: 'up',
+        ArrowDown: 'down',
+        s: 'down',
+        ArrowLeft: 'left',
+        a: 'left',
+        ArrowRight: 'right',
+        d: 'right'
       }
+      this.move(keyMapper[event.key])
     }
   },
 
