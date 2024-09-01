@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>Vue Snake!</h1>
+    <h1>Vue.js Snake!</h1>
   </header>
   <main>
     <game-board />
