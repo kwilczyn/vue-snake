@@ -201,9 +201,10 @@ button {
   font-weight: bold;
 }
 
-button:active,
-button:focus {
+button:focus,
+button:active {
   box-shadow: 1px 1px 1px black inset;
+  outline: none;
 }
 
 #buttonUp {
