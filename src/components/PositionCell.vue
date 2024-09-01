@@ -6,8 +6,8 @@
 export default {
   props: {
     cellType: {
-      type: String,
-      default: ''
+      type: Array,
+      default: []
     }
   },
   emits: ['collision-event', 'apple-event', 'belly-empty'],
@@ -16,16 +16,16 @@ export default {
   },
   methods: {
     checkWallColision() {
-      if (this.cellType === 'snake' && this.$refs.cell.classList.contains('wall'))
+      if (this.cellType.includes('snake') && this.$refs.cell.classList.contains('wall'))
         this.$emit('collision-event')
     },
     checkApple() {
-      if (this.cellType === 'snake' && this.$refs.cell.classList.contains('apple')) {
+      if (this.cellType.includes('snake') && this.$refs.cell.classList.contains('apple')) {
         this.$emit('apple-event', this.$refs.cell)
       }
     },
     checkBelly() {
-      if (this.cellType !== 'snake' && this.$refs.cell.classList.contains('belly')) {
+      if (!this.cellType.includes('snake') && this.$refs.cell.classList.contains('belly')) {
         this.$emit('belly-empty', this.$refs.cell)
       }
     }
@@ -55,10 +55,13 @@ export default {
 }
 
 .apple {
-  background: red;
+  width: 100%;
+  border-radius: 50%;
+  border-color: black;
 }
 
 .belly {
-  background: darkred!;
+  border-color: rgb(150, 245, 171);
+  border-width: 1px;
 }
 </style>

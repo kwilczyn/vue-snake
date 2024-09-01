@@ -81,15 +81,18 @@ export default {
     },
 
     setType(num) {
-      if (this.printSnake(num)) return this.printSnake(num)
+      if (this.printSnake(num)) {
+        if (this.belly.includes(num)) return ['snake', 'belly']
+        return [this.printSnake(num)]
+      }
       if (this.SetFrameBorder(num)) {
-        return this.SetFrameBorder(num)
+        return [this.SetFrameBorder(num)]
       }
       if (!this.apple) {
         this.setApple()
       }
-      if (num === this.apple) return 'apple'
-      if (this.belly.includes(num)) return 'belly'
+      if (num === this.apple) return ['apple']
+      if (this.belly.includes(num)) return ['belly']
     },
 
     moveSnake() {
