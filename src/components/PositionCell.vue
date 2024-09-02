@@ -51,6 +51,11 @@ export default {
   background: rgba(0, 0, 0, 0.7);
 }
 
+.snakeHead {
+  box-shadow: 0px 0px 0px 0.5px rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+}
+
 .apple {
   width: 100%;
   border-radius: 50%;

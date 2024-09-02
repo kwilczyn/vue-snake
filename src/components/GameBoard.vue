@@ -88,6 +88,7 @@ export default {
 
     setType(num) {
       return {
+        snakeHead: this.setSnakeHeadClass(num),
         snake: this.setSnakeClass(num),
         wall: this.setWallClass(num),
         apple: this.setAppleClass(num),
@@ -116,6 +117,10 @@ export default {
 
     setSnakeClass(num) {
       return this.snake.includes(num)
+    },
+
+    setSnakeHeadClass(num) {
+      if (this.snake[0] === num) return 'snakeHead'
     },
 
     setWallClass(num) {
