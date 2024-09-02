@@ -33,6 +33,12 @@ export default {
         down: 'up',
         left: 'right',
         right: 'left'
+      },
+      moveInDirection: {
+        left: (x) => x - 1,
+        right: (x) => x + 1,
+        up: (x) => x - this.boardLength,
+        down: (x) => x + this.boardLength
       }
     }
   },
@@ -96,7 +102,7 @@ export default {
       const moveInDirectionGetter = this.moveInDirection
       const tempBuffer = this.moveBuffer.slice()
       function applyBuffer(x) {
-        const func = moveInDirectionGetter(tempBuffer.shift())
+        const func = moveInDirectionGetter[tempBuffer.shift()]
         return func(x)
       }
       this.snake = this.snake.map(applyBuffer)
@@ -105,18 +111,6 @@ export default {
     checkSelfBiting() {
       if (new Set(this.snake).size !== this.snake.length) {
         this.gameOver()
-      }
-    },
-
-    moveInDirection(direction) {
-      if (direction === 'left') {
-        return (x) => x - 1
-      } else if (direction === 'right') {
-        return (x) => x + 1
-      } else if (direction === 'up') {
-        return (x) => x - this.boardLength
-      } else if (direction === 'down') {
-        return (x) => x + this.boardLength
       }
     },
 
