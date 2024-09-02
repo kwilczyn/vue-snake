@@ -119,17 +119,13 @@ export default {
     },
 
     setWallClass(num) {
-      if (num <= this.boardLength) {
-        return true
-      } else if (num % this.boardLength === 0) {
-        return true
-      } else if (num % this.boardLength === 1) {
-        return true
-      } else if (num >= this.numberOfCells - this.boardLength) {
-        return true
-      } else {
-        return false
-      }
+      const criteria = [
+        num <= this.boardLength,
+        num % this.boardLength === 0,
+        num % this.boardLength === 1,
+        num >= this.numberOfCells - this.boardLength
+      ]
+      return criteria.includes(true)
     },
 
     setAppleClass(num) {
