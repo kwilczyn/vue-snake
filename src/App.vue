@@ -43,21 +43,22 @@ export default {
   margin: 0 auto;
   align-items: center;
   height: 100vh;
+  justify-content: space-around;
 }
 
 header {
+  position: fixed;
+  top: 0;
   padding: 0 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  background-color: var(--color-background);
   width: 100%;
+  background-color: var(--color-background);
   color: #41b883;
   z-index: 10;
   text-align: center;
-  box-shadow: 0px 1px 1px 1px black;
   font-size: 1rem;
   h1 {
     font-size: large;
@@ -67,7 +68,8 @@ header {
 main {
   position: relative;
   min-height: 50rem;
-  width: 100vw;
+  max-width: 64rem;
+  width: 100%;
   background-image: url('./assets/background.webp');
   background-position-x: center;
   background-position-y: 55%;
@@ -87,10 +89,18 @@ main {
 }
 
 @media (min-width: 1024px) {
+  #app {
+    justify-content: center;
+  }
+
+  header {
+    max-width: 64rem;
+    position: relative;
+  }
+
   main {
     position: relative;
     height: 50rem;
-    width: 50rem;
     background-position-x: center;
     object-fit: none;
   }
