@@ -1,5 +1,6 @@
 <template>
   <div id="board">
+    <div id="gameOver" v-if="gameStopped">Game Over!</div>
     <position-cell
       v-for="num in numberOfCells"
       :key="num"
@@ -14,6 +15,7 @@
     <button @click="move('down')" id="buttonDown">Down</button>
     <button @click="move('left')" id="buttonLeft">Left</button>
     <button @click="move('right')" id="buttonRight">Right</button>
+    <button @click="resetGame" id="buttonReset">Reset</button>
   </div>
 </template>
 
@@ -28,6 +30,8 @@ export default {
       numberOfCells: 208,
       belly: [],
       apple: '',
+      gameStopped: false,
+      gameInterval: null,
       oppositeDirections: {
         up: 'down',
         down: 'up',
@@ -54,6 +58,8 @@ export default {
     }
   },
 
+  inject: ['setScore', 'setSpeed'],
+
   methods: {
     setApple() {
       this.apple = this.freeCells[Math.floor(Math.random() * this.freeCells.length)]
@@ -72,6 +78,7 @@ export default {
     enlargeSnake(ref) {
       this.snake.push(this.belly.pop())
       this.moveBuffer.push(this.moveBuffer[-1])
+      this.setScore(this.snake.length)
     },
 
     eatApple(ref) {
@@ -80,10 +87,11 @@ export default {
     },
 
     gameOver() {
-      this.snake = [this.getStartingPosition()]
-      this.moveBuffer = ['left']
+      this.stopGame()
+      this.snake = []
+      this.moveBuffer = []
       this.belly = []
-      this.setApple()
+      this.apple = ''
     },
 
     setType(num) {
@@ -153,6 +161,30 @@ export default {
         d: 'right'
       }
       this.move(keyMapper[event.key])
+    },
+
+    startGame() {
+      this.gameStopped = false
+      this.snake = [this.getStartingPosition()]
+      this.moveBuffer = ['left']
+      this.setApple()
+      this.setScore(1)
+      this.gameInterval = setInterval(this.gameTick, 300)
+    },
+
+    gameTick() {
+      this.moveSnake()
+      this.checkSelfBiting()
+    },
+
+    stopGame() {
+      clearInterval(this.gameInterval)
+      this.gameStopped = true
+    },
+
+    resetGame() {
+      if (!this.gameStopped) this.gameOver()
+      this.startGame()
     }
   },
 
@@ -164,18 +196,13 @@ export default {
 
   mounted() {
     window.addEventListener('keydown', this.handleKeyDown)
-    setInterval(() => {
-      this.moveSnake()
-      this.checkSelfBiting()
-    }, 200)
+    this.startGame()
   }
 }
 </script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
 #board {
   margin: 11.1rem auto auto auto;
@@ -191,6 +218,17 @@ export default {
   background-color: rgb(150, 245, 171);
 }
 
+#gameOver {
+  position: absolute;
+  top: 14%;
+  left: 20%;
+  font-family: 'Bungee', sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.7);
+}
+
 #controls {
   text-align: center;
   margin: 12rem auto auto auto;
@@ -199,6 +237,7 @@ export default {
 }
 
 button {
+  position: absolute;
   border-radius: 50%;
   height: 2.5rem;
   width: 3.5rem;
@@ -214,27 +253,28 @@ button:active {
 }
 
 #buttonUp {
-  position: absolute;
   top: -2.58rem;
   left: 4.7rem;
 }
 
 #buttonDown {
-  position: absolute;
   top: 4.2rem;
   left: 4.8rem;
 }
 
 #buttonLeft {
-  position: absolute;
   top: -0.1rem;
   left: -1rem;
   transform: rotateZ(16deg);
 }
 
 #buttonRight {
-  position: absolute;
   right: -1.8rem;
   transform: rotateZ(-15deg);
+}
+
+#buttonReset {
+  top: 0.8rem;
+  left: 4.7rem;
 }
 </style>
