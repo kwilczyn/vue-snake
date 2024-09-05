@@ -16,6 +16,8 @@
     <button @click="move('left')" id="buttonLeft">Left</button>
     <button @click="move('right')" id="buttonRight">Right</button>
     <button @click="resetGame" id="buttonReset">Reset</button>
+    <button @click="speedUp()" id="buttonFaster">Faster</button>
+    <button @click="speedDown()" id="buttonSlower">Slower</button>
   </div>
 </template>
 
@@ -43,7 +45,10 @@ export default {
         right: (x) => x + 1,
         up: (x) => x - this.boardLength,
         down: (x) => x + this.boardLength
-      }
+      },
+      delay: 300,
+      maxDelay: 1100,
+      minDelay: 100
     }
   },
   computed: {
@@ -55,6 +60,9 @@ export default {
         (x) => !((x % this.boardLength === 0) | (x % this.boardLength === 1))
       )
       return freeC.filter((x) => !this.snake.includes(x))
+    },
+    speedPercentage() {
+      return 110 - (this.delay / (this.maxDelay - this.minDelay)) * 100
     }
   },
 
@@ -169,7 +177,13 @@ export default {
       this.moveBuffer = ['left']
       this.setApple()
       this.setScore(1)
-      this.gameInterval = setInterval(this.gameTick, 300)
+      this.setSpeed(this.speedPercentage)
+      this.updateInterval()
+    },
+
+    updateInterval() {
+      clearInterval(this.gameInterval)
+      this.gameInterval = setInterval(this.gameTick, this.delay)
     },
 
     gameTick() {
@@ -185,6 +199,22 @@ export default {
     resetGame() {
       if (!this.gameStopped) this.gameOver()
       this.startGame()
+    },
+
+    speedDown() {
+      if (this.delay < this.maxDelay - this.minDelay) {
+        this.delay = this.delay + 100
+        this.updateInterval()
+        this.setSpeed(this.speedPercentage)
+      }
+    },
+
+    speedUp() {
+      if (this.delay - 100 > 0) {
+        this.delay = this.delay - 100
+        this.updateInterval()
+        this.setSpeed(this.speedPercentage)
+      }
     }
   },
 
@@ -276,5 +306,17 @@ button:active {
 #buttonReset {
   top: 0.8rem;
   left: 4.7rem;
+}
+
+#buttonFaster {
+  top: -3.48rem;
+  left: -1.2rem;
+  transform: rotateZ(15deg);
+}
+
+#buttonSlower {
+  top: -3.45rem;
+  right: -2rem;
+  transform: rotateZ(-25deg);
 }
 </style>
