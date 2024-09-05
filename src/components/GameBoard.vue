@@ -267,6 +267,7 @@ export default {
 }
 
 button {
+  touch-action: manipulation;
   position: absolute;
   border-radius: 50%;
   height: 2.5rem;
