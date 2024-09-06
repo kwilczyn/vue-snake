@@ -33,7 +33,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install dependencies
-        run: npm install
+        run: npm install --production
       # - name: Run Unit Tests
       #   run: npm run test:unit
       - name: Build the page using Vite
